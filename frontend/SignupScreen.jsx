@@ -6,285 +6,316 @@ import { useNavigation } from "@react-navigation/native";
 // import contractAbi from "./contarctAbi.js";
 
 // Your CoinEx Smart Chain HTTP endpoint
-const RPC_URL = "https://rpc.coinex.net";
+const RPC_URL = "https://testnet-rpc.coinex.net/";
 
 // Smart contract address and ABI
-const contractAddress = "0xE0016f08dfE4B0D3a101BCE8fcc555Df3a6ED3a1";
+const contractAddress = "0x5839f5cC19cB2551113cA0C91BFD2399Dd31e68F";
 const contractABI = [
-  {
-    inputs: [
-      {
-        internalType: "string",
-        name: "username",
-        type: "string",
-      },
-      {
-        components: [
-          {
-            internalType: "string",
-            name: "deviceId",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "cameraId",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "batteryId",
-            type: "string",
-          },
-          {
-            internalType: "bool",
-            name: "exists",
-            type: "bool",
-          },
-        ],
-        internalType: "struct DeviceData",
-        name: "dd",
-        type: "tuple",
-      },
-    ],
-    name: "deRegisterDeviceContract",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        components: [
-          {
-            internalType: "string",
-            name: "deviceId",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "cameraId",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "batteryId",
-            type: "string",
-          },
-          {
-            internalType: "bool",
-            name: "exists",
-            type: "bool",
-          },
-        ],
-        internalType: "struct DeviceData",
-        name: "dd",
-        type: "tuple",
-      },
-    ],
-    name: "registerDevice",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "string",
-        name: "username",
-        type: "string",
-      },
-      {
-        components: [
-          {
-            internalType: "string",
-            name: "deviceId",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "cameraId",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "batteryId",
-            type: "string",
-          },
-          {
-            internalType: "bool",
-            name: "exists",
-            type: "bool",
-          },
-        ],
-        internalType: "struct DeviceData",
-        name: "dd",
-        type: "tuple",
-      },
-    ],
-    name: "registerDeviceContract",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    stateMutability: "nonpayable",
-    type: "constructor",
-  },
-  {
-    inputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    name: "battery",
-    outputs: [
-      {
-        internalType: "string",
-        name: "username",
-        type: "string",
-      },
-      {
-        internalType: "bool",
-        name: "exists",
-        type: "bool",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    name: "camera",
-    outputs: [
-      {
-        internalType: "string",
-        name: "username",
-        type: "string",
-      },
-      {
-        internalType: "bool",
-        name: "exists",
-        type: "bool",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "string",
-        name: "a",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "b",
-        type: "string",
-      },
-    ],
-    name: "compareStrings",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
-    ],
-    stateMutability: "pure",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    name: "contracts",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    name: "device",
-    outputs: [
-      {
-        internalType: "string",
-        name: "username",
-        type: "string",
-      },
-      {
-        internalType: "bool",
-        name: "exists",
-        type: "bool",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "string",
-        name: "username",
-        type: "string",
-      },
-    ],
-    name: "getDeviceContract",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "owner",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-];
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "username",
+				"type": "string"
+			},
+			{
+				"components": [
+					{
+						"internalType": "string",
+						"name": "deviceId",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "cameraId",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "batteryId",
+						"type": "string"
+					},
+					{
+						"internalType": "bool",
+						"name": "exists",
+						"type": "bool"
+					}
+				],
+				"internalType": "struct DeviceData",
+				"name": "dd",
+				"type": "tuple"
+			}
+		],
+		"name": "deRegisterDeviceContract",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "message",
+				"type": "string"
+			}
+		],
+		"name": "Error",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"components": [
+					{
+						"internalType": "string",
+						"name": "deviceId",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "cameraId",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "batteryId",
+						"type": "string"
+					},
+					{
+						"internalType": "bool",
+						"name": "exists",
+						"type": "bool"
+					}
+				],
+				"internalType": "struct DeviceData",
+				"name": "dd",
+				"type": "tuple"
+			}
+		],
+		"name": "registerDevice",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "username",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "pass",
+				"type": "string"
+			},
+			{
+				"components": [
+					{
+						"internalType": "string",
+						"name": "deviceId",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "cameraId",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "batteryId",
+						"type": "string"
+					},
+					{
+						"internalType": "bool",
+						"name": "exists",
+						"type": "bool"
+					}
+				],
+				"internalType": "struct DeviceData",
+				"name": "dd",
+				"type": "tuple"
+			}
+		],
+		"name": "registerDeviceContract",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "deviceAddress",
+				"type": "address"
+			}
+		],
+		"name": "Success",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"name": "battery",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "username",
+				"type": "string"
+			},
+			{
+				"internalType": "bool",
+				"name": "exists",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"name": "camera",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "username",
+				"type": "string"
+			},
+			{
+				"internalType": "bool",
+				"name": "exists",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "a",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "b",
+				"type": "string"
+			}
+		],
+		"name": "compareStrings",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"name": "contracts",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"name": "device",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "username",
+				"type": "string"
+			},
+			{
+				"internalType": "bool",
+				"name": "exists",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "username",
+				"type": "string"
+			}
+		],
+		"name": "getDeviceContract",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
 
 // Sender's address and private key
 const senderAddress = "0x3599cED19B48700eD5574D40a7b25DF7aeD9E2fB";
@@ -307,53 +338,122 @@ const SignupScreen = () => {
       return;
     }
 
-    try {
-      // Define the device data
-      const deviceData = {
-        deviceId: "DEVICE_ID", // replace with actual device ID
-        cameraId: "CAMERA_ID", // replace with actual camera ID
-        batteryId: "BATTERY_ID", // replace with actual battery ID
-        exists: true, // this should match your contract's logic
-      };
+    // try {
+    // Define the device data
+    const deviceData = {
+      deviceId: "a", // replace with actual device ID
+      cameraId: "a", // replace with actual camera ID
+      batteryId: "a", // replace with actual battery ID
+      exists: true, // this should match your contract's logic
+    };
 
-      // Encode the parameters
-      const data = contract.methods
-        .registerDeviceContract(username, deviceData)
-        .encodeABI();
+    // const deviceData = [
+    //   "DEVICE_ID", // replace with actual device ID
+    //   "CAMERA_ID", // replace with actual camera ID
+    //   "BATTERY_ID", // replace with actual battery ID
+    //   true // this should match your contract's logic
+    // ];
 
-      // Get the nonce
-      const nonce = await web3.eth.getTransactionCount(senderAddress);
+    // Encode the parameters
+    // const data = await contract.methods
+    //   .registerDeviceContract(username, deviceData)
+    //   .send({
+    //     from: senderAddress,
+    //     to: contractAddress,
+    //   });
 
-      // Create the transaction object
-      const tx = {
-        from: senderAddress,
-        to: contractAddress,
-        data: data,
-        gas: 3000000, // Adjust gas limit
-        // gasPrice: web3.utils.toHex(web3.utils.toWei("10", "gwei")),
-        // nonce: nonce,
-        chainId: 53, // Chain ID for CoinEx Smart Chain Mainnet
-      };
+    // console.log(data);
 
-      // Sign the transaction
-      const signedTx = await web3.eth.accounts.signTransaction(tx, privateKey);
+    // Get transaction hash
+    const contractAbi = contractABI; //require('../../smart-contract/main_contract_abi.json');
+    const provider = new Web3.providers.HttpProvider(RPC_URL, {
+      timeout: 5000,
+      keepAlive: true,
+    });
+    const web3 = new Web3(provider);
+    const mainContract = new web3.eth.Contract(contractAbi, contractAddress);
 
-      // Send the signed transaction
-      const receipt = await web3.eth.sendSignedTransaction(
-        signedTx.rawTransaction
-      );
-      console.log("Transaction successful with hash:", receipt.transactionHash);
+    const gasPrice = await web3.eth.getGasPrice();
+    // const gasPrice = await web3.eth.getGasPrice();
+    // const gasLimit = await web3.eth.estimateGas({
+    //   from: senderAddress,
+    //   to: contractAddress,
+    //   value: web3.utils.toWei(3000000, 'wei'),
+    // });
+    // const nonce = await web3.eth.getTransactionCount(senderAddress);
+    const data = mainContract.methods
+      .registerDeviceContract(username, password, deviceData).encodeABI()
+      // .send({
+      //   from: senderAddress,
+      //   to: contractAddress,
+      //   gasPrice: gasPrice
+      // });
 
-      Alert.alert("Success", "Transaction sent successfully!", [
-        {
-          text: "OK",
-          onPress: () => navigation.navigate("Main"),
-        },
-      ]);
-    } catch (error) {
-      console.error("Error sending transaction:", error);
-      Alert.alert("Error", "An error occurred");
-    }
+    // const gasPrice = await web3.eth.getGasPrice();
+    // // const gasLimit = await web3.eth.estimateGas({
+    // //   from: senderAddress,
+    // //   to: contractAddress,
+    // //   data: data,
+    // // });
+    // const nonce = await web3.eth.getTransactionCount(senderAddress);
+    const value = web3.utils.toWei("0", "ether");
+    // // const data = await mainContract.methods.transact(from, to, amount).encodeABI();
+    const tx = {
+      from: senderAddress,
+      to: contractAddress,
+      // nonce: nonce,
+      gasPrice: gasPrice,
+      // gasLimit: gasLimit,
+      // gas: 300000,
+      value: value,
+      data: data,
+      // maxPriorityFeePerGas: web3.utils.toWei('2', 'gwei'),
+      // maxFeePerGas: web3.utils.toWei('100', 'gwei'),
+    };
+    const signedTx = await web3.eth.accounts.signTransaction(tx, privateKey);
+    const receipt = await web3.eth.sendSignedTransaction(
+      signedTx.rawTransaction
+    );
+    const transHash = receipt.transactionHash;
+    // const status = receipt.status == true ? 'SUCCESS' : 'FAILURE';
+    console.log("====================================");
+    // console.log((await data).transactionHash);
+    console.log("hash = " + transHash);
+    console.log("====================================");
+
+    // Get the nonce
+    // const nonce = await web3.eth.getTransactionCount(senderAddress);
+
+    // // Create the transaction object
+    // const tx = {
+    //   from: senderAddress,
+    //   to: contractAddress,
+    //   data: data,
+    //   // gas: 3000000, // Adjust gas limit
+    //   // gasPrice: web3.utils.toHex(web3.utils.toWei("10", "gwei")),
+    //   // nonce: nonce,
+    //   chainId: 53, // Chain ID for CoinEx Smart Chain Mainnet
+    // };
+
+    // // Sign the transaction
+    // const signedTx = await web3.eth.accounts.signTransaction(tx, privateKey);
+
+    // // Send the signed transaction
+    // const receipt = await web3.eth.sendSignedTransaction(
+    //   signedTx.rawTransaction
+    // );
+    // console.log("Transaction successful with hash:", receipt.transactionHash);
+
+    // Alert.alert("Success", "Transaction sent successfully!", [
+    //   {
+    //     text: "OK",
+    //     onPress: () => navigation.navigate("Main"),
+    //   },
+    // ]);
+    // } catch (error) {
+    //   console.error("Error sending transaction:", error);
+    //   Alert.alert("Error", "An error occurred");
+    // }
   };
 
   return (
@@ -382,7 +482,7 @@ const SignupScreen = () => {
         />
         <Button
           mode="elevated"
-          onPress={handleSignup}
+          onPress={() => {handleSignup()}}
           style={{ marginTop: 20 }}
         >
           Register
