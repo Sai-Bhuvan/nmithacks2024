@@ -3,8 +3,8 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  TextInput,
   Button,
+  TextInput,
 } from "react-native";
 import React, { useState } from "react";
 
