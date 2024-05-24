@@ -38,8 +38,8 @@ export default function App() {
         screenOptions={{ headerShown: false }}
       >
         <Drawer.Screen name="Home" component={HomeScreen} />
-        <Drawer.Screen name="Transactions" component={TransactionsScreen} />
-        <Drawer.Screen name="Settings" component={SettingsScreen} />
+        {/* <Drawer.Screen name="Transactions" component={TransactionsScreen} /> */}
+        {/* <Drawer.Screen name="Settings" component={SettingsScreen} /> */}
         <Drawer.Screen name="LocationComponent" component={LocationComponent} />
         <Drawer.Screen name="transfer" component={TranserPhone} />
       </Drawer.Navigator>
