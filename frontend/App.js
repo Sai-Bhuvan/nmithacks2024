@@ -10,22 +10,6 @@ import { useNavigation } from "@react-navigation/native";
 
 const Drawer = createDrawerNavigator();
 
-function UsersScreen() {
-  return (
-    <View style={styles.centered}>
-      <Text style={styles.header}>Users</Text>
-    </View>
-  );
-}
-
-function OrdersScreen() {
-  return (
-    <View style={styles.centered}>
-      <Text style={styles.header}>Orders</Text>
-    </View>
-  );
-}
-
 function TransactionsScreen() {
   return (
     <View style={styles.centered}>
@@ -50,8 +34,7 @@ export default function App() {
         screenOptions={{ headerShown: false }}
       >
         <Drawer.Screen name="Home" component={HomeScreen} />
-        <Drawer.Screen name="Users" component={UsersScreen} />
-        <Drawer.Screen name="Orders" component={OrdersScreen} />
+
         <Drawer.Screen name="Transactions" component={TransactionsScreen} />
         <Drawer.Screen name="Settings" component={SettingsScreen} />
         <Drawer.Screen name="LocationComponent" component={LocationComponent} />
