@@ -6,8 +6,8 @@ const SideMenu = ({ navigation }) => {
     { title: "Home", routeName: "Home" },
     // { title: "Users", routeName: "Users" },
     // { title: "Orders", routeName: "Orders" },
-    { title: "Transactions", routeName: "Transactions" },
-    { title: "Settings", routeName: "Settings" },
+    // { title: "Transactions", routeName: "Transactions" },
+    // { title: "Settings", routeName: "Settings" },
     { title: "Get Location", routeName: "LocationComponent" },
     { title: " tranfer phone", routeName: "transfer" },
   ];
