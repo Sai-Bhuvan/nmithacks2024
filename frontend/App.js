@@ -7,12 +7,16 @@ import HomeScreen from "./HomeScreen";
 import SideMenu from "./SideMenu";
 import LocationComponent from "./LocationComponent";
 import { useNavigation } from "@react-navigation/native";
+import TranserPhone from "./TranserPhone";
 
 const Drawer = createDrawerNavigator();
 
 function TransactionsScreen() {
   return (
     <View style={styles.centered}>
+      <TouchableOpacity style={styles.menuButton} onPress={() => openDrawer()}>
+        <Text style={styles.menuButtonText}>☰</Text>
+      </TouchableOpacity>
       <Text style={styles.header}>Transactions</Text>
     </View>
   );
@@ -34,10 +38,10 @@ export default function App() {
         screenOptions={{ headerShown: false }}
       >
         <Drawer.Screen name="Home" component={HomeScreen} />
-
         <Drawer.Screen name="Transactions" component={TransactionsScreen} />
         <Drawer.Screen name="Settings" component={SettingsScreen} />
         <Drawer.Screen name="LocationComponent" component={LocationComponent} />
+        <Drawer.Screen name="transfer" component={TranserPhone} />
       </Drawer.Navigator>
     </NavigationContainer>
   );
