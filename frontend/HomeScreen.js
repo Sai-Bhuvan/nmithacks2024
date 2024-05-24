@@ -1,6 +1,8 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
+// I am a Blockchain developer
+
 const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
