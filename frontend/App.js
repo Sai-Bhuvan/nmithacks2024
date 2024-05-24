@@ -1,4 +1,7 @@
 import "react-native-gesture-handler";
+import { AppRegistry } from 'react-native';
+import { PaperProvider } from 'react-native-paper';
+import { name as appName } from './app.json';
 // import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
@@ -8,6 +11,8 @@ import SideMenu from "./SideMenu";
 import LocationComponent from "./LocationComponent";
 import { useNavigation } from "@react-navigation/native";
 import TranserPhone from "./TranserPhone";
+import SignupScreen from "./SignupScreen";
+import CustomTextInput from "./CustomTextInput";
 
 const Drawer = createDrawerNavigator();
 
@@ -32,18 +37,23 @@ function SettingsScreen() {
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Drawer.Navigator
-        drawerContent={(props) => <SideMenu {...props} />}
-        screenOptions={{ headerShown: false }}
-      >
-        <Drawer.Screen name="Home" component={HomeScreen} />
-        <Drawer.Screen name="Transactions" component={TransactionsScreen} />
-        <Drawer.Screen name="Settings" component={SettingsScreen} />
-        <Drawer.Screen name="LocationComponent" component={LocationComponent} />
-        <Drawer.Screen name="transfer" component={TranserPhone} />
-      </Drawer.Navigator>
-    </NavigationContainer>
+    <PaperProvider>
+      <SignupScreen/>
+    </PaperProvider>
+    // <NavigationContainer>
+    //   <Drawer.Navigator
+    //     drawerContent={(props) => <SideMenu {...props} />}
+    //     screenOptions={{ headerShown: false }}
+    //   >
+    //     <Drawer.Screen name="Home" component={HomeScreen} />
+    //     <Drawer.Screen name="Transactions" component={TransactionsScreen} />
+    //     <Drawer.Screen name="Settings" component={SettingsScreen} />
+    //     <Drawer.Screen name="LocationComponent" component={LocationComponent} />
+    //     <Drawer.Screen name="transfer" component={TranserPhone} />
+    //   </Drawer.Navigator>
+    // </NavigationContainer>
+    
+    // <CustomTextInput/>
   );
 }
 
@@ -58,3 +68,5 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
+
+AppRegistry.registerComponent(appName, () => App);

@@ -1,77 +1,92 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { TextInput, Button } from 'react-native-paper';
+
+import { View, Text, StyleSheet, Alert, TouchableOpacity, onPress, title} from 'react-native';
 
 const SignupScreen = () => {
   const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const handleSignup = () => {
     console.log(username)
-    if (password !== confirmPassword) {
-      alert('Error', 'Passwords do not match!');
-      return;
-    }
+    // if (password !== confirmPassword) {
+    //   Alert.alert('Password mismatch', 'Passwords do not match');
+    //   return;
+    // }
 
-    // Here you can handle the signup logic, like sending data to your backend
-    Alert.alert('Success', 'You have signed up successfully!');
+    // // Here you can handle the signup logic, like sending data to your backend
+    // Alert.alert('Success', 'You have signed up successfully!');
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Sign Up</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Username"
-        value={username}
-        onChangeText={setUsername}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Confirm Password"
-        value={confirmPassword}
-        onChangeText={setConfirmPassword}
-        secureTextEntry
-      />
-      <Button title="Sign Up" onPress={handleSignup} />
+    <View style={styles.screen}>
+
+      <View style={styles.container}>
+        <Text style={styles.title}>Register</Text>
+        <TextInput
+          style={styles.input}
+          label = 'Username'
+          // placeholder="Username"
+          value={username}
+          onChangeText={setUsername}
+        />
+        <TextInput
+          style={styles.input}
+          label = 'Password'
+          // placeholder="Password"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+        />
+        
+        <Button mode="elevated" onPress={handleSignup} style = {{marginTop: 20}}>
+          Register
+        </Button>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  title: {
+    fontSize: 40,
+    margin: 10
+  },
+  screen: {
     flex: 1,
     justifyContent: 'center',
-    padding: 16,
+    alignItems: 'center',
+
   },
-  title: {
-    fontSize: 49,
-    marginBottom: 16,
-    textAlign: 'center',
+  container: {
+    padding: 10,
+    alignItems: 'center',
+    // backgroundColor: "pearl"
   },
   input: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 5,
-    marginBottom: 12,
-    paddingHorizontal: 8,
+    // paddingHorizontal: 15,
+    // paddingVertical: 10,
+    // borderRadius: 10,
+    // borderWidth: 1,
+    // borderColor: "#ccc",
+    fontSize: 16,
+    color: "#333",
+    width: 350,
+    margin: 10
   },
-});
+  button: {
+    backgroundColor: "#007bff",
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+})
 
 export default SignupScreen;
