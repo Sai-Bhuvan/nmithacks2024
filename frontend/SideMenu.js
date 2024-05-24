@@ -9,6 +9,7 @@ const SideMenu = ({ navigation }) => {
     { title: "Transactions", routeName: "Transactions" },
     { title: "Settings", routeName: "Settings" },
     { title: "Get Location", routeName: "LocationComponent" },
+    { title: " tranfer phone", routeName: "transfer" },
   ];
 
   const navigateToScreen = (routeName) => () => {
