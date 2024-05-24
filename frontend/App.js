@@ -5,7 +5,8 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { View, Text, StyleSheet } from "react-native";
 import HomeScreen from "./HomeScreen";
 import SideMenu from "./SideMenu";
-import SignupScreen from "./SignupScreen";
+import LocationComponent from "./LocationComponent";
+import { useNavigation } from "@react-navigation/native";
 
 const Drawer = createDrawerNavigator();
 
@@ -43,19 +44,19 @@ function SettingsScreen() {
 
 export default function App() {
   return (
-    // <NavigationContainer>
-    //   <Drawer.Navigator
-    //     drawerContent={(props) => <SideMenu {...props} />}
-    //     screenOptions={{ headerShown: false }}
-    //   >
-    //     <Drawer.Screen name="Home" component={HomeScreen} />
-    //     <Drawer.Screen name="Users" component={UsersScreen} />
-    //     <Drawer.Screen name="Orders" component={OrdersScreen} />
-    //     <Drawer.Screen name="Transactions" component={TransactionsScreen} />
-    //     <Drawer.Screen name="Settings" component={SettingsScreen} />
-    //   </Drawer.Navigator>
-    // </NavigationContainer>
-    <SignupScreen></SignupScreen>
+    <NavigationContainer>
+      <Drawer.Navigator
+        drawerContent={(props) => <SideMenu {...props} />}
+        screenOptions={{ headerShown: false }}
+      >
+        <Drawer.Screen name="Home" component={HomeScreen} />
+        <Drawer.Screen name="Users" component={UsersScreen} />
+        <Drawer.Screen name="Orders" component={OrdersScreen} />
+        <Drawer.Screen name="Transactions" component={TransactionsScreen} />
+        <Drawer.Screen name="Settings" component={SettingsScreen} />
+        <Drawer.Screen name="LocationComponent" component={LocationComponent} />
+      </Drawer.Navigator>
+    </NavigationContainer>
   );
 }
 
