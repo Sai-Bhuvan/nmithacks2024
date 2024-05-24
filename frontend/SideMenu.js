@@ -8,6 +8,7 @@ const SideMenu = ({ navigation }) => {
     { title: "Orders", routeName: "Orders" },
     { title: "Transactions", routeName: "Transactions" },
     { title: "Settings", routeName: "Settings" },
+    { title: "Get Location", routeName: "LocationComponent" },
   ];
 
   const navigateToScreen = (routeName) => () => {
