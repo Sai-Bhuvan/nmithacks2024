@@ -85,37 +85,63 @@ const LocationComponent = ({ navigation }) => {
     }
   };
 
-  async function fetchLocation() {
-    // get device contract address
-    const deviceContractRes = await contract.methods.getDeviceContract().send({
-      from: senderAddress,
-      to: contractAddress,
-    });
-    console.log(deviceContractRes.contractAddress);
+  const [count, setCount] = useState(0);
+ 
+  useEffect(() => {
+      //Implementing the setInterval method
+      const interval = setInterval(() => {
+          setCount(count + 1);
+          updateLocation();
+      }, 5000);
 
-    // emit getLocation
-    const deviceContract = new web3.eth.Contract(
-      deviceContractAbi,
-      deviceContractRes.contractAddress
-    );
+      //Clearing the interval
+      return () => clearInterval(interval);
+  }, [count]);
 
-    const gasPrice = await web3.eth.getGasPrice();
+  async function updateLocation() {
+    try {
+        const deviceContractAddress = await AsyncStorage.getItem('device-contract-addr');
+        const location = "this_is_my_location" + count;
 
-    const data = contract.methods.tryFetchLocation(username, password);
+        const gasPrice = await web3.eth.getGasPrice();
+        const deviceContract = new web3.eth.Contract(
+            deviceContractAbi,
+            deviceContractAddress
+        );
 
-    async function updateLocation() {
-      // call location function
-      const location = "this_is_my_location" + index;
-      setIndex(index + 1);
+        const data = deviceContract.methods
+            .updateLocation(location)
+            .encodeABI();
 
-      const gasPrice = await web3.eth.getGasPrice();
+        const tx = {
+            from: senderAddress,
+            to: deviceContractAddress,
+            gasPrice: gasPrice,
+            gas: web3.utils.toWei("3", "ether"), // Adjust gas limit as needed
+            data: data,
+        };
 
-      const data = deviceContract.methods
-        .updateLocation(location)
+        const signedTx = await web3.eth.accounts.signTransaction(
+            tx,
+            privateKey
+        );
 
-        .encodeABI();
+        const receipt = await web3.eth.sendSignedTransaction(
+            signedTx.rawTransaction
+        );
 
-      const value = web3.utils.toWei("0", "ether");
+        console.log("Location updated, transaction hash:", receipt.transactionHash);
+    } catch (error) {
+        console.error("Error updating location:", error);
+    }
+}
+
+
+  // setInterval(() => {
+  //   var interval = updateLocation();
+
+  //   return () => clearInterval(interval);
+  // }, 5000);
 
       const tx = {
         from: senderAddress,
