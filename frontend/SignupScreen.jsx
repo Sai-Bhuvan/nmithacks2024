@@ -9,7 +9,7 @@ import { useNavigation } from "@react-navigation/native";
 const RPC_URL = "https://testnet-rpc.coinex.net/";
 
 // Smart contract address and ABI
-const contractAddress = "0x5839f5cC19cB2551113cA0C91BFD2399Dd31e68F";
+const contractAddress = "0x8942c02Dd77C4d3352b051798567778635A94333";
 const contractABI = [
 	{
 		"inputs": [
@@ -50,24 +50,6 @@ const contractABI = [
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
-	},
-	{
-		"inputs": [],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "string",
-				"name": "message",
-				"type": "string"
-			}
-		],
-		"name": "Error",
-		"type": "event"
 	},
 	{
 		"inputs": [
@@ -156,17 +138,9 @@ const contractABI = [
 		"type": "function"
 	},
 	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "address",
-				"name": "deviceAddress",
-				"type": "address"
-			}
-		],
-		"name": "Success",
-		"type": "event"
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
 	},
 	{
 		"inputs": [
