@@ -11,6 +11,7 @@ import SideMenu from "./SideMenu";
 import LocationComponent from "./LocationComponent";
 import TranserPhone from "./TranserPhone";
 import SignupScreen from "./SignupScreen";
+import VerifyIntigrity from "./VerifyIntigrity";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -24,6 +25,7 @@ function MainDrawer() {
       <Drawer.Screen name="Home" component={HomeScreen} />
       <Drawer.Screen name="LocationComponent" component={LocationComponent} />
       <Drawer.Screen name="transfer" component={TranserPhone} />
+      <Drawer.Screen name="verify" component={VerifyIntigrity} />
     </Drawer.Navigator>
   );
 }

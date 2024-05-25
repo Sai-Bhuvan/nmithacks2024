@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { TextInput, Button } from "react-native-paper";
-import { View, Text,  StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import Geolocation from "react-native-geolocation-service";
 
 import Web3 from "web3";
@@ -12,16 +12,16 @@ const LocationComponent = ({ navigation }) => {
   const [location, setLocation] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [location, setLocation] = useState(null);
+  // const [location, setLocation] = useState(null);
 
   const contractAddress = "0x8942c02Dd77C4d3352b051798567778635A94333";
-  const contractABI = require('./contractABI.json');
+  const contractABI = require("./contractABI.json");
 
   const senderAddress = "0x3599cED19B48700eD5574D40a7b25DF7aeD9E2fB";
   const privateKey =
     "c0e2a44482ca956308c432349422152904c3ffcb620da0cf266e4faf47cd1cab";
 
-  const deviceContractAbi = require('./deviceContractABI.json');
+  const deviceContractAbi = require("./deviceContractABI.json");
   const web3 = new Web3(new Web3.providers.HttpProvider(RPC_URL));
   const contract = new web3.eth.Contract(contractABI, contractAddress);
 
@@ -52,21 +52,25 @@ const LocationComponent = ({ navigation }) => {
     }
   };
 
-  function fetchLocation() {
+  async function fetchLocation() {
     // get device contract address
     const deviceContractRes = await contract.methods.getDeviceContract().send({
       from: senderAddress,
-      to: contractAddress
+      to: contractAddress,
     });
     console.log(deviceContractRes.contractAddress);
 
     // emit getLocation
-    const deviceContract = new web3.eth.Contract(deviceContractAbi, deviceContractRes.contractAddress);
+    const deviceContract = new web3.eth.Contract(
+      deviceContractAbi,
+      deviceContractRes.contractAddress
+    );
 
     const gasPrice = await web3.eth.getGasPrice();
 
     const data = contract.methods
-      .tryFetchLocation(username, password).encodeABI();
+      .tryFetchLocation(username, password)
+      .encodeABI();
 
     const value = web3.utils.toWei("0", "ether");
 
@@ -85,7 +89,7 @@ const LocationComponent = ({ navigation }) => {
     );
 
     // wait for it to return ()
-    deviceContract.events.returnLocation().on('data', (e) => {
+    deviceContract.events.returnLocation().on("data", (e) => {
       // update location
       const { location } = e.returnValues;
       setLocation(location);
@@ -125,16 +129,12 @@ const LocationComponent = ({ navigation }) => {
           onChangeText={setPassword}
           secureTextEntry
         />
-        <Button
-          mode="elevated"
-          onPress={getLocation}
-          disabled={loading}
-        >{loading ? "Getting Location..." : "Get Location"}</Button>
+        <Button mode="elevated" onPress={getLocation} disabled={loading}>
+          {loading ? "Getting Location..." : "Get Location"}
+        </Button>
       </View>
       {error && <Text style={styles.errorText}>Error: {error}</Text>}
-      {location && (
-        <Text>{location}</Text>
-      )}
+      {location && <Text>{location}</Text>}
     </View>
   );
 };
