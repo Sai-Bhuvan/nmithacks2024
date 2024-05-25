@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   container: {
     marginVertical: 10,
     width: "100%",
-    marginTop: 300
+    marginTop: 300,
   },
   input: {
     paddingHorizontal: 15,

@@ -11,7 +11,7 @@ const RPC_URL = "https://testnet-rpc.coinex.net/";
 
 // Smart contract address and ABI
 const contractAddress = "0x8942c02Dd77C4d3352b051798567778635A94333";
-const contractABI = require('./contractABI.json');
+const contractABI = require("./contractABI.json");
 
 // Sender's address and private key
 const senderAddress = "0x3599cED19B48700eD5574D40a7b25DF7aeD9E2fB";
@@ -102,7 +102,7 @@ const SigninScreen = ({ navigation }) => {
           onChangeText={setPassword}
           secureTextEntry
         />
-        
+
         <Button
           mode="elevated"
           onPress={() => {
