@@ -12,11 +12,13 @@ import Web3 from "web3";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import { contractAddr as contractAddress, contractAbi as contractABI } from "./contract";
+
 const RPC_URL = "https://testnet-rpc.coinex.net/";
 
 // Smart contract address and ABI
-const contractAddress = "0x8942c02Dd77C4d3352b051798567778635A94333";
-const contractABI = require('./contractABI.json');
+// const contractAddress = "0x8942c02Dd77C4d3352b051798567778635A94333";
+// const contractABI = require('./contractABI.json');
 
 const senderAddress = "0x3599cED19B48700eD5574D40a7b25DF7aeD9E2fB";
 const privateKey =

@@ -13,9 +13,11 @@ import { useNavigation } from "@react-navigation/native";
 
 const RPC_URL = "https://testnet-rpc.coinex.net/";
 
+import { deviceContractAddress as contractAddress, deviceContractAbi as contractABI } from "./deviceContract";
+
 // Smart contract address and ABI
-const contractAddress = "0x8942c02Dd77C4d3352b051798567778635A94333";
-const contractABI = require("./deviceContractABI.json");
+// const contractAddress = "0x8942c02Dd77C4d3352b051798567778635A94333";
+// const contractABI = require("./deviceContractABI.json");
 
 const senderAddress = "0x3599cED19B48700eD5574D40a7b25DF7aeD9E2fB";
 const privateKey =

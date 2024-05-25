@@ -1,4 +1,6 @@
-[
+export const deviceContractAddress = "0xAa4ee1230EC1ef5F2bb2e071F035600de58025F7";
+
+export const deviceContractAbi = [
 	{
 		"inputs": [
 			{
@@ -145,7 +147,7 @@
 		],
 		"name": "updateLocation",
 		"outputs": [],
-		"stateMutability": "payable",
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -199,4 +201,4 @@
 		"stateMutability": "view",
 		"type": "function"
 	}
-]
+];

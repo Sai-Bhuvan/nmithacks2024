@@ -9,9 +9,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 // Your CoinEx Smart Chain HTTP endpoint
 const RPC_URL = "https://testnet-rpc.coinex.net/";
 
+import { contractAddr as contractAddress, contractAbi as contractABI } from "./contract";
+
 // Smart contract address and ABI
-const contractAddress = "0x8942c02Dd77C4d3352b051798567778635A94333";
-const contractABI = require("./contractABI.json");
+// const contractAddress = "0xeab2355dC1171A7e3D94de9900cE18D3CDA5F013";
+// const contractABI = require("./contractABI.json");
 
 // Sender's address and private key
 const senderAddress = "0x3599cED19B48700eD5574D40a7b25DF7aeD9E2fB";
@@ -21,6 +23,7 @@ const privateKey =
 // Initialize web3
 const web3 = new Web3(new Web3.providers.HttpProvider(RPC_URL));
 const contract = new web3.eth.Contract(contractABI, contractAddress);
+
 
 const SignupScreen = ({ navigation }) => {
   const [username, setUsername] = useState("");
@@ -38,9 +41,9 @@ const SignupScreen = ({ navigation }) => {
     try {
       // Define the device data
       const deviceData = {
-        deviceId: "3", // replace with actual device ID
-        cameraId: "3", // replace with actual camera ID
-        batteryId: "3", // replace with actual battery ID
+        deviceId: "123", // replace with actual device ID
+        cameraId: "123", // replace with actual camera ID
+        batteryId: "123", // replace with actual battery ID
         exists: true, // this should match your contract's logic
       };
 
@@ -50,14 +53,14 @@ const SignupScreen = ({ navigation }) => {
         .registerDeviceContract(username, password, deviceData)
         .encodeABI();
 
-      const value = web3.utils.toWei("0", "ether");
+    //   const value = web3.utils.toWei("0", "ether");
 
       const tx = {
         from: senderAddress,
         to: contractAddress,
         gasPrice: gasPrice,
         // gas: 300000, // Adjust gas limit as needed
-        value: value,
+        // value: value,
         data: data,
       };
 
@@ -67,7 +70,7 @@ const SignupScreen = ({ navigation }) => {
       );
 
       console.log("Transaction successful with hash:", receipt.transactionHash);
-	  console.log("receipt = " + receipt);
+	  console.log("receipt = " + receipt.contractAddress);
       await AsyncStorage.setItem("username", username);
       await AsyncStorage.setItem("deviceData", JSON.stringify(deviceData));
 

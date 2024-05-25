@@ -1,4 +1,6 @@
-[
+export const contractAddr = "0xf9D108d6C25986a7617aE29FC78cE5B8Fe5965dA";
+
+export const contractAbi = [
 	{
 		"inputs": [
 			{
@@ -277,4 +279,5 @@
 		"stateMutability": "view",
 		"type": "function"
 	}
-]
+];
+

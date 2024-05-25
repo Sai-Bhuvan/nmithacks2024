@@ -5,6 +5,8 @@ import Geolocation from "react-native-geolocation-service";
 
 import Web3 from "web3";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { contractAddr as contractAddress, contractAbi } from "./contract";
+import { deviceContractAbi, deviceContractAddress } from "./deviceContract";
 
 const LocationComponent = ({ navigation }) => {
   const [username, setUsername] = useState("");
@@ -14,12 +16,6 @@ const LocationComponent = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const [index, setIndex] = useState(0);
-
-  // const [location, setLocation] = useState(null);
-
-  const contractAddress = "0x8942c02Dd77C4d3352b051798567778635A94333";
-  const deviceContractAbi = require("./contractABI.json");
 
   const RPC_URL = "https://testnet-rpc.coinex.net/";
 
@@ -29,34 +25,9 @@ const LocationComponent = ({ navigation }) => {
 
   // const deviceContractAbi = require("./deviceContractABI.json");
   const web3 = new Web3(new Web3.providers.HttpProvider(RPC_URL));
-  const contract = new web3.eth.Contract(deviceContractAbi, contractAddress);
+  const contract = new web3.eth.Contract(contractAbi, contractAddress);
 
-  useEffect(() => {
-    // const web3 = new Web3(new Web3.providers.HttpProvider(providerURL));
-    var eventSubscription = null;
-    async function subs() {
-      const deviceContractAddress = await AsyncStorage.getItem(
-        "device-contract-addr"
-      );
-      const deviceContract = new web3.eth.Contract(
-        deviceContractAbi,
-        deviceContractAddress
-      );
-
-      eventSubscription = deviceContract.on("getLocation", async (event) => {
-        console.log("Event received:", event);
-      });
-      // .on("error", (error) => {
-      //   console.error("Error with event subscription:", error);
-      // });
-    }
-
-    subs();
-
-    return () => {
-      eventSubscription.unsubscribe();
-    };
-  }, []);
+  const [fetching, setFetching] = useState(false);
 
   const getLocation = async () => {
     setLoading(true);
@@ -99,8 +70,9 @@ const LocationComponent = ({ navigation }) => {
   }, [count]);
 
   async function updateLocation() {
+    // setFetching(true);
     try {
-        const deviceContractAddress = await AsyncStorage.getItem('device-contract-addr');
+        // const deviceContractAddress = "0x2084f873b7031AC41bDF829bd0eF52F318A27faA";// await AsyncStorage.getItem('device-contract-addr');
         const location = "this_is_my_location" + count;
 
         const gasPrice = await web3.eth.getGasPrice();
@@ -117,7 +89,7 @@ const LocationComponent = ({ navigation }) => {
             from: senderAddress,
             to: deviceContractAddress,
             gasPrice: gasPrice,
-            gas: web3.utils.toWei("3", "ether"), // Adjust gas limit as needed
+            // gas: web3.utils.toWei("3", "ether"), // Adjust gas limit as needed
             data: data,
         };
 
@@ -134,69 +106,28 @@ const LocationComponent = ({ navigation }) => {
     } catch (error) {
         console.error("Error updating location:", error);
     }
-}
-
-
-  // setInterval(() => {
-  //   var interval = updateLocation();
-
-  //   return () => clearInterval(interval);
-  // }, 5000);
-
-      const tx = {
-        from: senderAddress,
-        to: deviceContractAddress,
-        gasPrice: gasPrice,
-        // gas: 300000, // Adjust gas limit as needed
-        value: value,
-        data: data,
-      };
-
-      const signedTx = await web3.eth.accounts.signTransaction(tx, privateKey);
-      const receipt = await web3.eth.sendSignedTransaction(
-        signedTx.rawTransaction
-      );
-
-      // wait for it to return ()
-      deviceContract.events.returnLocation().on("data", (e) => {
-        // update location
-        const { location } = e.returnValues;
-        setLocation(location);
-      });
-
-      console.log("location updated, hash:", receipt.transactionHash);
-    }
-
-    setInterval(() => {
-      updateLocation();
-    }, 3000);
+  }
 
     async function fetchLocation() {
+
+      setFetching(true);
+
       try {
         const gasPrice = await web3.eth.getGasPrice();
         const nonce = await web3.eth.getTransactionCount(senderAddress);
 
-        // Call getDeviceContract method
-        const deviceContractAddress = await contract.methods
-          .getDeviceContract(username)
-          .call({
-            from: senderAddress,
-            to: contractAddress,
-            gasPrice: gasPrice,
-          });
-        // const deviceContractAddress = deviceContractRes.contractAddress;
-        console.log(deviceContractAddress);
+        // const deviceContractAddress = "0x2084f873b7031AC41bDF829bd0eF52F318A27faA";
 
         // Call tryFetchLocation method
         const deviceContract = new web3.eth.Contract(
           deviceContractAbi,
           deviceContractAddress
         );
-        const locationData = deviceContract.methods
+        const locationData = await deviceContract.methods
           .tryFetchLocation(username, password)
           .call({
             from: senderAddress,
-            to: contractAddress,
+            // to: contractAddress,
             gasPrice: gasPrice,
           });
 
@@ -204,6 +135,8 @@ const LocationComponent = ({ navigation }) => {
       } catch (error) {
         console.error("Error fetching location:", error);
       }
+
+      setFetching(false);
     }
 
     const requestLocationPermission = async () => {
@@ -226,6 +159,7 @@ const LocationComponent = ({ navigation }) => {
         </TouchableOpacity>
         <View style={styles.container}>
           <Text style={styles.title}>Get Location</Text>
+          {location && <Text style={styles.title}>Location = {fetching ? "Fetching..." : location}</Text>}
           <TextInput
             style={styles.input}
             label="Username"
@@ -240,17 +174,16 @@ const LocationComponent = ({ navigation }) => {
             secureTextEntry
           />
 
-          <Button mode="elevated" onPress={getLocation} disabled={loading} />
+          {/* <Button mode="elevated" onPress={getLocation} disabled={loading} /> */}
 
           <Button mode="elevated" onPress={fetchLocation} disabled={loading}>
             {loading ? "Getting Location..." : "Get Location"}
           </Button>
         </View>
         {error && <Text style={styles.errorText}>Error: {error}</Text>}
-        {location && <Text>{location}</Text>}
       </View>
     );
-  }
+  
 };
 
 const styles = StyleSheet.create({
