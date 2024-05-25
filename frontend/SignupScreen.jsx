@@ -37,9 +37,9 @@ const SignupScreen = ({ navigation }) => {
     try {
       // Define the device data
       const deviceData = {
-        deviceId: "a", // replace with actual device ID
-        cameraId: "a", // replace with actual camera ID
-        batteryId: "a", // replace with actual battery ID
+        deviceId: "b", // replace with actual device ID
+        cameraId: "b", // replace with actual camera ID
+        batteryId: "b", // replace with actual battery ID
         exists: true, // this should match your contract's logic
       };
 
