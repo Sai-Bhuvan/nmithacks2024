@@ -7,10 +7,9 @@ import {
   Alert,
   TextInput,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Web3 from "web3";
 import { useNavigation } from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const RPC_URL = "https://testnet-rpc.coinex.net/";
 
@@ -25,36 +24,23 @@ const privateKey =
 const web3 = new Web3(new Web3.providers.HttpProvider(RPC_URL));
 const contract = new web3.eth.Contract(contractABI, contractAddress);
 
-const TranserPhone = ({ navigation }) => {
-  //   const [username, setUsername] = useState("");
-  const [deviceId, setdeviceId] = useState("");
-  const [cameraId, setcameraId] = useState("");
-  const [batteryId, setbatteryId] = useState("");
-
-  //   const deviceData = {
-  //     deviceId: "a", // replace with actual device ID
-  //     cameraId: "a", // replace with actual camera ID
-  //     batteryId: "a", // replace with actual battery ID
-  //     exists: true, // this should match your contract's logic
-  //   };
+const TransferPhone = ({ navigation }) => {
+  const [deviceId, setDeviceId] = useState("");
+  const [cameraId, setCameraId] = useState("");
+  const [batteryId, setBatteryId] = useState("");
 
   const handleVerification = async () => {
-    const deviceData = {
-      cameraId: cameraId,
-      deviceId: deviceId,
-      batteryId: batteryId,
-    };
-
     try {
       const gasPrice = await web3.eth.getGasPrice();
-      const data = contract.methods.verifyIntegrity(deviceData).encodeABI();
+      const data = contract.methods
+        .verifyIntegrity(deviceId, cameraId, batteryId)
+        .encodeABI();
       const value = web3.utils.toWei("0", "ether");
 
       const tx = {
         from: senderAddress,
         to: contractAddress,
         gasPrice: gasPrice,
-        // gas: 300000, // Adjust gas limit as needed
         value: value,
         data: data,
       };
@@ -64,54 +50,40 @@ const TranserPhone = ({ navigation }) => {
         signedTx.rawTransaction
       );
 
-      // Transaction successful, handle different cases
-      switch (receipt.status) {
-        case true:
-          // Transaction successful, handle different responses from the contract
-          const response = await contract.methods
-            .verifyIntegrity(deviceData)
-            .call();
-          switch (response) {
-            case "owner":
-              // Device belongs to the owner
-              Alert.alert(
-                "Success",
-                "Device verification successful. Device belongs to the owner."
-              );
-              break;
-            case "not_owner":
-              // Device doesn't belong to the owner
-              Alert.alert(
-                "Warning",
-                "Device verification failed. Device doesn't belong to the owner."
-              );
-              break;
-            case "camera_sus":
-              // Camera suspicion
-              Alert.alert(
-                "Warning",
-                "Device verification failed. Suspicious camera detected."
-              );
-              break;
-            case "battery_sus":
-              // Battery suspicion
-              Alert.alert(
-                "Warning",
-                "Device verification failed. Suspicious battery detected."
-              );
-              break;
-            default:
-              // Unexpected response
-              Alert.alert("Error", "Unexpected response from the contract.");
-          }
-          break;
-        case false:
-          // Transaction failed
-          Alert.alert("Error", "Transaction failed.");
-          break;
-        default:
-          // Unexpected status
-          Alert.alert("Error", "Unexpected status.");
+      if (receipt.status) {
+        const response = await contract.methods
+          .verifyIntegrity(deviceId, cameraId, batteryId)
+          .call();
+        switch (response) {
+          case "owner":
+            Alert.alert(
+              "Success",
+              "Device verification successful. Device belongs to the owner."
+            );
+            break;
+          case "not_owner":
+            Alert.alert(
+              "Warning",
+              "Device verification failed. Device doesn't belong to the owner."
+            );
+            break;
+          case "camera_sus":
+            Alert.alert(
+              "Warning",
+              "Device verification failed. Suspicious camera detected."
+            );
+            break;
+          case "battery_sus":
+            Alert.alert(
+              "Warning",
+              "Device verification failed. Suspicious battery detected."
+            );
+            break;
+          default:
+            Alert.alert("Error", "Unexpected response from the contract.");
+        }
+      } else {
+        Alert.alert("Error", "Transaction failed.");
       }
     } catch (error) {
       console.error("Error transferring phone:", error);
@@ -130,28 +102,26 @@ const TranserPhone = ({ navigation }) => {
       >
         <Text style={styles.menuButtonText}>☰</Text>
       </TouchableOpacity>
-      <Text style={styles.welcomeText}>Transfer phone to other person</Text>
+      <Text style={styles.welcomeText}>Verify Integrity of the phone </Text>
       <TextInput
         style={styles.input}
         placeholder="Device id"
         value={deviceId}
-        onChangeText={setdeviceId}
+        onChangeText={setDeviceId}
       />
       <TextInput
         style={styles.input}
-        placeholder="cameraid"
-        secureTextEntry={true}
+        placeholder="Camera id"
         value={cameraId}
-        onChangeText={setcameraId}
+        onChangeText={setCameraId}
       />
       <TextInput
         style={styles.input}
-        placeholder="cameraid"
-        secureTextEntry={true}
+        placeholder="Battery id"
         value={batteryId}
-        onChangeText={setbatteryId}
+        onChangeText={setBatteryId}
       />
-      <Button title="verify device " onPress={handleVerification} />
+      <Button title="Verify Device" onPress={handleVerification} />
     </View>
   );
 };
@@ -188,8 +158,9 @@ const styles = StyleSheet.create({
     borderColor: "gray",
     borderWidth: 1,
     marginBottom: 10,
+    marginTop: 10,
     paddingHorizontal: 10,
   },
 });
 
-export default TranserPhone;
+export default TransferPhone;

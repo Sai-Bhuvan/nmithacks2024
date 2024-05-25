@@ -33,13 +33,13 @@ function MainDrawer() {
 function App() {
   return (
     <PaperProvider>
-      {/* <NavigationContainer>
+      <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Signup" component={SignupScreen} />
           <Stack.Screen name="Main" component={MainDrawer} />
         </Stack.Navigator>
-      </NavigationContainer> */}
-      <LocationComponent/>
+      </NavigationContainer>
+      {/* <LocationComponent/> */}
       {/* <SignupScreen/> */}
     </PaperProvider>
   );

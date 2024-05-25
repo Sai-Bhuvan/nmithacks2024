@@ -19,7 +19,7 @@ const LocationComponent = ({ navigation }) => {
   // const [location, setLocation] = useState(null);
 
   const contractAddress = "0x8942c02Dd77C4d3352b051798567778635A94333";
-  const contractABI = require("./contractABI.json");
+  const deviceContractAbi = require("./contractABI.json");
 
   const RPC_URL = "https://testnet-rpc.coinex.net/";
 
@@ -27,9 +27,9 @@ const LocationComponent = ({ navigation }) => {
   const privateKey =
     "c0e2a44482ca956308c432349422152904c3ffcb620da0cf266e4faf47cd1cab";
 
-  const deviceContractAbi = require("./deviceContractABI.json");
+  // const deviceContractAbi = require("./deviceContractABI.json");
   const web3 = new Web3(new Web3.providers.HttpProvider(RPC_URL));
-  const contract = new web3.eth.Contract(contractABI, contractAddress);
+  const contract = new web3.eth.Contract(deviceContractAbi, contractAddress);
 
   useEffect(() => {
     // const web3 = new Web3(new Web3.providers.HttpProvider(providerURL));
