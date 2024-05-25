@@ -374,6 +374,8 @@ const SignupScreen = ({ navigation }) => {
       await AsyncStorage.setItem("username", username);
       await AsyncStorage.setItem("deviceData", JSON.stringify(deviceData));
 
+      navigation.navigate("Main");
+
       Alert.alert("Success", "Transaction sent successfully!", [
         {
           text: "OK",
