@@ -7,6 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 const RPC_URL = "https://testnet-rpc.coinex.net/";
 
 import { deviceContractAddress as contractAddress, deviceContractAbi as contractABI } from "./deviceContract";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Smart contract address and ABI
 // const contractAddress = "0x8942c02Dd77C4d3352b051798567778635A94333";
@@ -20,38 +21,48 @@ const web3 = new Web3(new Web3.providers.HttpProvider(RPC_URL));
 const contract = new web3.eth.Contract(contractABI, contractAddress);
 
 const TransferPhone = ({ navigation }) => {
-  const [deviceId, setDeviceId] = useState("");
-  const [cameraId, setCameraId] = useState("");
-  const [batteryId, setBatteryId] = useState("");
   const [userId, setuserId] = useState("");
   const [password, setpassword] = useState("");
-  const [dis, setdis] = new useState(false);
+  const [dis, setdis] = useState(false);
+  const [status, setStatus] = useState(null);
 
   const handleVerification = async () => {
     try {
       const gasPrice = await web3.eth.getGasPrice();
-      const data = contract.methods
-        .verifyIntegrity(userId, password, deviceId, cameraId, batteryId)
-        .encodeABI();
-      const value = web3.utils.toWei("0", "ether");
 
-      const tx = {
-        from: senderAddress,
-        to: contractAddress,
-        gasPrice: gasPrice,
-        value: value,
-        data: data,
-      };
+      const deviceData = JSON.parse(await AsyncStorage.getItem('deviceData'));
 
-      const signedTx = await web3.eth.accounts.signTransaction(tx, privateKey);
-      const receipt = await web3.eth.sendSignedTransaction(
-        signedTx.rawTransaction
-      );
+      const response = await contract.methods
+        .verifyIntegrity(userId, password, deviceData)
+        .call({
+          from: senderAddress,
+          // to: contractAddress,
+          gasPrice: gasPrice,
+        });
+      // const value = web3.utils.toWei("0", "ether");
 
-      if (receipt.status) {
-        const response = await contract.methods
-          .verifyIntegrity(deviceId, cameraId, batteryId)
-          .call();
+      // const tx = {
+      //   from: senderAddress,
+      //   to: contractAddress,
+      //   gasPrice: gasPrice,
+      //   value: value,
+      //   data: data,
+      // };
+
+      // const signedTx = await web3.eth.accounts.signTransaction(tx, privateKey);
+      // const receipt = await web3.eth.sendSignedTransaction(
+      //   signedTx.rawTransaction
+      // );
+
+      console.log('====================================');
+      console.log("response = " + response);
+      console.log('====================================');
+
+      if (response) {
+        // const response = await contract.methods
+        //   .verifyIntegrity(deviceId, cameraId, batteryId)
+        //   .call();
+        setStatus(response);
         switch (response) {
           case "owner":
             Alert.alert(
@@ -101,6 +112,7 @@ const TransferPhone = ({ navigation }) => {
         <Text style={styles.menuButtonText}>☰</Text>
       </TouchableOpacity>
       <Text style={styles.welcomeText}>Verify Integrity of the phone </Text>
+      <Text style={styles.welcomeText}>Integrity Status = {status}</Text>
       <TextInput
         style={styles.input}
         placeholder="User Id"
@@ -114,7 +126,7 @@ const TransferPhone = ({ navigation }) => {
         onChangeText={setpassword}
         secureTextEntry
       />
-      <TextInput
+      {/* <TextInput
         style={styles.input}
         placeholder="Device id"
         value={deviceId}
@@ -131,7 +143,7 @@ const TransferPhone = ({ navigation }) => {
         placeholder="Battery id"
         value={batteryId}
         onChangeText={setBatteryId}
-      />
+      /> */}
       <Button
         mode="elevated"
         onPress={() => {

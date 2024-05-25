@@ -121,7 +121,7 @@ const SignupScreen = ({ navigation }) => {
             setdis(true);
             handleSignup();
           }}
-          disabled={dis}
+        //   disabled={dis}
           style={{ marginTop: 20 }}
         >
           Register

@@ -32,22 +32,25 @@ contract Main {
         battery[dd.deviceId] = PartOwner("", true);
     }
 
-    function registerDeviceContract(string memory username, DeviceData memory dd) public returns(string memory) {
+    function registerDeviceContract(string memory username, string memory pass, DeviceData memory dd) public returns(string memory) {
         
-        require(
-            device[dd.deviceId].exists && 
-            camera[dd.deviceId].exists && 
-            battery[dd.deviceId].exists, 
-        "Invalid device");
+        if(
+            !device[dd.deviceId].exists || 
+            !camera[dd.cameraId].exists || 
+            !battery[dd.batteryId].exists
+        ) 
+        {
+            return "Invalid device";
+        }
         
         // check if parts already present
         if(bytes(device[dd.deviceId].username).length > 0) {
             return "not_owner";
         }
-        else if(bytes(camera[dd.deviceId].username).length > 0) {
+        else if(bytes(camera[dd.cameraId].username).length > 0) {
             return "camera_sus";
         }
-        else if(bytes(battery[dd.deviceId].username).length > 0) {
+        else if(bytes(battery[dd.batteryId].username).length > 0) {
             return "battery_sus";
         }
 
@@ -57,7 +60,7 @@ contract Main {
         camera[dd.deviceId].username = username;
         battery[dd.deviceId].username = username;
         
-        address deviceAddr = address(new Device(dd));
+        address deviceAddr = address(new Device(username, pass, dd));
         contracts[username] = deviceAddr;
         return toAsciiString(deviceAddr);
     }
