@@ -1,12 +1,5 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Button,
-  Alert,
-  TextInput,
-} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import { TextInput, Button } from "react-native-paper";
 import React, { useState } from "react";
 import Web3 from "web3";
 import { useNavigation } from "@react-navigation/native";
@@ -28,12 +21,15 @@ const TransferPhone = ({ navigation }) => {
   const [deviceId, setDeviceId] = useState("");
   const [cameraId, setCameraId] = useState("");
   const [batteryId, setBatteryId] = useState("");
+  const [userId, setuserId] = useState("");
+  const [password, setpassword] = useState("");
+  const [dis, setdis] = new useState(false);
 
   const handleVerification = async () => {
     try {
       const gasPrice = await web3.eth.getGasPrice();
       const data = contract.methods
-        .verifyIntegrity(deviceId, cameraId, batteryId)
+        .verifyIntegrity(userId, password, deviceId, cameraId, batteryId)
         .encodeABI();
       const value = web3.utils.toWei("0", "ether");
 
@@ -105,6 +101,19 @@ const TransferPhone = ({ navigation }) => {
       <Text style={styles.welcomeText}>Verify Integrity of the phone </Text>
       <TextInput
         style={styles.input}
+        placeholder="User Id"
+        value={userId}
+        onChangeText={setuserId}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Password"
+        value={password}
+        onChangeText={setpassword}
+        secureTextEntry
+      />
+      <TextInput
+        style={styles.input}
         placeholder="Device id"
         value={deviceId}
         onChangeText={setDeviceId}
@@ -121,7 +130,17 @@ const TransferPhone = ({ navigation }) => {
         value={batteryId}
         onChangeText={setBatteryId}
       />
-      <Button title="Verify Device" onPress={handleVerification} />
+      <Button
+        mode="elevated"
+        onPress={() => {
+          setdis(true);
+          handleVerification();
+        }}
+        disabled={dis}
+        style={{ marginTop: 20 }}
+      >
+        Verify
+      </Button>
     </View>
   );
 };
@@ -153,13 +172,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   input: {
-    height: 40,
-    width: "80%",
-    borderColor: "gray",
-    borderWidth: 1,
-    marginBottom: 10,
-    marginTop: 10,
-    paddingHorizontal: 10,
+    fontSize: 16,
+    color: "#333",
+    width: 350,
+    margin: 10,
   },
 });
 
