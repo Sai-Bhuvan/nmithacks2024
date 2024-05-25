@@ -1,8 +1,12 @@
 import React, { useState } from "react";
-import { View, Text, Button, StyleSheet, TouchableOpacity } from "react-native";
+import { TextInput, Button } from "react-native-paper";
+import { View, Text,  StyleSheet, TouchableOpacity } from "react-native";
 import Geolocation from "react-native-geolocation-service";
 
 const LocationComponent = ({ navigation }) => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
   const [location, setLocation] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -52,11 +56,27 @@ const LocationComponent = ({ navigation }) => {
       >
         <Text style={styles.menuButtonText}>☰</Text>
       </TouchableOpacity>
-      <Button
-        title={loading ? "Getting Location..." : "Get Location"}
-        onPress={getLocation}
-        disabled={loading}
-      />
+      <View style={styles.container}>
+        <Text style={styles.title}>Get Location</Text>
+        <TextInput
+          style={styles.input}
+          label="Username"
+          value={username}
+          onChangeText={setUsername}
+        />
+        <TextInput
+          style={styles.input}
+          label="Password"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+        />
+        <Button
+          mode="elevated"
+          onPress={getLocation}
+          disabled={loading}
+        >{loading ? "Getting Location..." : "Get Location"}</Button>
+      </View>
       {error && <Text style={styles.errorText}>Error: {error}</Text>}
       {location && (
         <View style={styles.locationContainer}>
@@ -74,6 +94,21 @@ const LocationComponent = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  title: {
+    fontSize: 40,
+    margin: 10,
+  },
+  screen: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  input: {
+    fontSize: 16,
+    color: "#333",
+    width: 350,
+    margin: 10,
+  },
   container: {
     flex: 1,
     justifyContent: "center",
