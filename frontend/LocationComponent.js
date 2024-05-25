@@ -2,10 +2,24 @@ import React, { useState } from "react";
 import { View, Text, Button, StyleSheet, TouchableOpacity } from "react-native";
 import Geolocation from "react-native-geolocation-service";
 
+import Web3 from "web3";
+
 const LocationComponent = ({ navigation }) => {
   const [location, setLocation] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [location, setLocation] = useState(null);
+
+  const contractAddress = "0x8942c02Dd77C4d3352b051798567778635A94333";
+  const contractABI = require('./contractABI.json');
+
+  const senderAddress = "0x3599cED19B48700eD5574D40a7b25DF7aeD9E2fB";
+  const privateKey =
+    "c0e2a44482ca956308c432349422152904c3ffcb620da0cf266e4faf47cd1cab";
+
+  const deviceContractAbi = require('./deviceContractABI.json');
+  const web3 = new Web3(new Web3.providers.HttpProvider(RPC_URL));
+  const contract = new web3.eth.Contract(contractABI, contractAddress);
 
   const getLocation = async () => {
     setLoading(true);
@@ -34,6 +48,46 @@ const LocationComponent = ({ navigation }) => {
     }
   };
 
+  function fetchLocation() {
+    // get device contract address
+    const deviceContractRes = await contract.methods.getDeviceContract().send({
+      from: senderAddress,
+      to: contractAddress
+    });
+    console.log(deviceContractRes.contractAddress);
+
+    // emit getLocation
+    const deviceContract = new web3.eth.Contract(deviceContractAbi, deviceContractRes.contractAddress);
+
+    const gasPrice = await web3.eth.getGasPrice();
+
+    const data = contract.methods
+      .tryFetchLocation(username, password).encodeABI();
+
+    const value = web3.utils.toWei("0", "ether");
+
+    const tx = {
+      from: senderAddress,
+      to: contractAddress,
+      gasPrice: gasPrice,
+      // gas: 300000, // Adjust gas limit as needed
+      value: value,
+      data: data,
+    };
+
+    const signedTx = await web3.eth.accounts.signTransaction(tx, privateKey);
+    const receipt = await web3.eth.sendSignedTransaction(
+      signedTx.rawTransaction
+    );
+
+    // wait for it to return ()
+    deviceContract.events.returnLocation().on('data', (e) => {
+      // update location
+      const { location } = e.returnValues;
+      setLocation(location);
+    });
+  }
+
   const requestLocationPermission = async () => {
     try {
       const granted = await Geolocation.requestAuthorization("whenInUse");
@@ -59,15 +113,7 @@ const LocationComponent = ({ navigation }) => {
       />
       {error && <Text style={styles.errorText}>Error: {error}</Text>}
       {location && (
-        <View style={styles.locationContainer}>
-          <Text>Latitude: {location.coords.latitude}</Text>
-          <Text>Longitude: {location.coords.longitude}</Text>
-          {location.coords.altitude !== null && (
-            <Text>Altitude: {location.coords.altitude}</Text>
-          )}
-          <Text>Accuracy: {location.coords.accuracy}</Text>
-          <Text>Speed: {location.coords.speed}</Text>
-        </View>
+        <Text>{location}</Text>
       )}
     </View>
   );
