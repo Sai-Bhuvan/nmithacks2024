@@ -37,9 +37,9 @@ const SignupScreen = ({ navigation }) => {
     try {
       // Define the device data
       const deviceData = {
-        deviceId: "b", // replace with actual device ID
-        cameraId: "b", // replace with actual camera ID
-        batteryId: "b", // replace with actual battery ID
+        deviceId: "3", // replace with actual device ID
+        cameraId: "3", // replace with actual camera ID
+        batteryId: "3", // replace with actual battery ID
         exists: true, // this should match your contract's logic
       };
 
@@ -66,6 +66,7 @@ const SignupScreen = ({ navigation }) => {
       );
 
       console.log("Transaction successful with hash:", receipt.transactionHash);
+	  console.log("receipt = " + receipt);
       await AsyncStorage.setItem("username", username);
       await AsyncStorage.setItem("deviceData", JSON.stringify(deviceData));
 
